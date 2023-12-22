@@ -17,10 +17,8 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body>
-        <MantineProvider>
-          <div style={{ height: "100vh", width: "100vw" }}>{children}</div>
-        </MantineProvider>
+      <body style={{ overflow: "hidden" }}>
+        <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
   );
