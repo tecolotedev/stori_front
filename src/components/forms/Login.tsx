@@ -3,7 +3,7 @@
 import { Button, Flex, Stack } from "@mantine/core";
 import { TextInput, PasswordInput } from "../atoms";
 import { useState } from "react";
-import { login } from "@/api";
+import { clientLogin } from "@/api";
 import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
@@ -14,7 +14,7 @@ export const LoginForm = () => {
   const onSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
-    const { ok } = await login<null>(values);
+    const { ok } = await clientLogin<null>(values);
 
     if (ok) router.push("/app");
     else setIsLoading(false);
