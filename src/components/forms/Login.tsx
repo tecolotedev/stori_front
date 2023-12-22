@@ -7,14 +7,17 @@ import { login } from "@/api";
 import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [values, setValues] = useState({ email: "", password: "" });
   const router = useRouter();
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     const { ok } = await login<null>(values);
-    console.log("ok: ", ok);
+
     if (ok) router.push("/app");
+    else setIsLoading(false);
   };
   return (
     <Flex justify="center" p={20}>
@@ -33,7 +36,12 @@ export const LoginForm = () => {
             onChange={(v) => setValues({ ...values, password: v })}
           />
 
-          <Button type="submit" bg="#04d180">
+          <Button
+            type="submit"
+            bg="#04d180"
+            loading={isLoading}
+            disabled={isLoading}
+          >
             Login
           </Button>
         </Stack>
