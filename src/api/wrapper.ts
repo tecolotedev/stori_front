@@ -73,8 +73,6 @@ export const serverWrapper = async <T>({
   } catch (err: any) {
     console.log("err call server: ", String(err));
 
-    cookiesStore.delete("access_token");
-
     return { ok: false, data: undefined };
   }
 };
