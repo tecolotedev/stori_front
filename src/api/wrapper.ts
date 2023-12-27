@@ -9,15 +9,17 @@ type CallAPIWrapperParams = {
   };
 };
 
-export type APIResponse<T> =
-  | {
-      ok: true;
-      data: T;
-    }
-  | {
-      ok: false;
-      data: undefined;
-    };
+type RightResponse<T> = {
+  ok: true;
+  data: T;
+};
+
+type BadResponse = {
+  ok: false;
+  message: string;
+};
+
+export type APIResponse<T> = RightResponse<T> | BadResponse;
 
 export const clientWrapper = async <T>({
   path,
@@ -34,16 +36,26 @@ export const clientWrapper = async <T>({
       credentials: "include",
       body: body && JSON.stringify(body),
     }).then((res) => res.json());
-    return { ok: true, data: res as T };
+
+    if (!res.ok) {
+      notifications.show({
+        color: "red",
+        title: "Error login",
+        message: res.message,
+      });
+      return res as BadResponse;
+    }
+
+    return res as RightResponse<T>;
   } catch (err: any) {
     console.log("err call client: ", String(err));
     notifications.show({
       color: "red",
       title: "Error login",
-      message: "wrong email or password",
+      message: "Something went wrong, please try it later",
     });
 
-    return { ok: false, data: undefined };
+    return { ok: false, message: "Something went wrong, please try it later" };
   }
 };
 
@@ -69,10 +81,12 @@ export const serverWrapper = async <T>({
       credentials: "include",
       body: body && JSON.stringify(body),
     }).then((res) => res.json());
-    return { ok: true, data: res as T };
+
+    if (!res.ok) return res as BadResponse;
+    return res as RightResponse<T>;
   } catch (err: any) {
     console.log("err call server: ", String(err));
 
-    return { ok: false, data: undefined };
+    return { ok: false, message: "Something went wrong" };
   }
 };

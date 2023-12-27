@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, Flex, Stack } from "@mantine/core";
+import { Button, Flex, Stack, Text } from "@mantine/core";
 import { TextInput, PasswordInput } from "../atoms";
 import { useState } from "react";
 import { clientLogin } from "@/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,9 +15,8 @@ export const LoginForm = () => {
   const onSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
-    const { ok } = await clientLogin<null>(values);
-
-    if (ok) router.push("/app");
+    const res = await clientLogin<null>(values);
+    if (res.ok) router.push("/app");
     else setIsLoading(false);
   };
   return (
@@ -35,6 +35,11 @@ export const LoginForm = () => {
             value={values["password"]}
             onChange={(v) => setValues({ ...values, password: v })}
           />
+          <Link href="/signup" style={{ textDecoration: "none" }}>
+            <Text c="white" fs="italic" td="underline" size="xs">
+              Create Account
+            </Text>
+          </Link>
 
           <Button
             type="submit"

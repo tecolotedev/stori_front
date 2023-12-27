@@ -5,8 +5,8 @@ import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
 export const metadata = {
-  title: "My Mantine app",
-  description: "I have followed setup instructions carefully",
+  title: "Stori test",
+  description: "Amazing app",
 };
 
 export default function RootLayout({
