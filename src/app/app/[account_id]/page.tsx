@@ -1,10 +1,12 @@
 import { serverGetAccount } from "@/api";
 import { Account, Transfer } from "@/types";
 import { redirect } from "next/navigation";
-import { Paper, SimpleGrid, Title } from "@mantine/core";
+import { Box, Paper, SimpleGrid, Title } from "@mantine/core";
 import { SimpleAccountCard } from "@/components/molecules";
 import { UploadTransactionsForm } from "@/components/forms";
 import { ListTransfers } from "@/components/organisms/ListTransfers";
+import { ActionIcon } from "@mantine/core";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -28,6 +30,13 @@ const AccountPage = async ({ params: { account_id } }: Props) => {
         p={20}
       >
         <Paper>
+          <Box p={10}>
+            <Link href="/app">
+              <ActionIcon variant="outline" aria-label="Settings">
+                &lsaquo;
+              </ActionIcon>
+            </Link>
+          </Box>
           <Title order={2}>Account</Title>
           <SimpleAccountCard
             currency={res.data.account.Currency}
