@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <Box component="main" w="100vw" h="100vh">
+    <Box component="main">
       <Flex justify="flex-end">
         <Box p={10}>
           <Button component={Link} href="/login" bg="#04d180">
@@ -18,7 +18,7 @@ export default function Home() {
         align="center"
         direction="column"
         w="100%"
-        h="100%"
+        h="500px"
       >
         <Image
           src="/img/logo.png"
