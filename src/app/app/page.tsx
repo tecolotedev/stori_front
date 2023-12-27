@@ -1,11 +1,14 @@
 import { serverListAccounts } from "@/api";
 import { Paper, SimpleGrid, Stack, Title } from "@mantine/core";
-import { AccountCard } from "@/components/molecules";
 import { Account } from "@/types";
 import { CreateAccountForm } from "@/components/forms";
+import { redirect } from "next/navigation";
+import { ListAccounts } from "@/components/organisms";
 
 const AppPage = async () => {
-  const { data } = await serverListAccounts<Account[]>();
+  const res = await serverListAccounts<Account[]>();
+
+  if (!res.ok) redirect("/login");
 
   return (
     <div>
@@ -15,17 +18,9 @@ const AppPage = async () => {
         verticalSpacing={{ base: "md", sm: "xl" }}
         p={20}
       >
-        <Paper shadow="xs" radius="xl" p="xl" bg="#04d180">
-          <Title c="white" order={5}>
-            Accounts
-          </Title>
-          <Stack>
-            {data?.map((account) => {
-              return <AccountCard account={account} key={account.ID} />;
-            })}
-          </Stack>
-        </Paper>
-        <Paper shadow="xs" radius="xl" p="xl" bg="#04d180">
+        <ListAccounts accounts={res.data} />
+
+        <Paper shadow="xs" radius="xl" p="xl" bg="#04d180" h="fit-content">
           <Title c="white" order={5}>
             Create Account
           </Title>

@@ -1,12 +1,13 @@
-import { serverWrapper, APIResponse } from "./wrapper";
+import { serverWrapper, clientWrapper, APIResponse } from "./wrapper";
 
 export const serverListAccounts = async <T>(): Promise<APIResponse<T>> =>
   serverWrapper({ path: "/api/account", method: "GET" });
 
-export const verifyToken = async <T>(): Promise<APIResponse<T>> =>
-  serverWrapper({ path: "/api/verifyToken", method: "GET" });
-
-export const serverVerifyAccount = async <T>(
-  id: string
+type CreateAccountParams = {
+  balance: number;
+  currency: string;
+};
+export const clientCreateAccount = async <T>(
+  body: CreateAccountParams
 ): Promise<APIResponse<T>> =>
-  serverWrapper({ path: `/api/verifyAccount?id=${id}`, method: "GET" });
+  clientWrapper({ path: "/api/account", method: "POST", body });

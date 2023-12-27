@@ -1,49 +1,50 @@
 "use client";
 
 import { Button, Flex, Stack } from "@mantine/core";
-import { TextInput, PasswordInput } from "../atoms";
+import { Select, NumberInput } from "@/components/atoms";
 import { useState } from "react";
-import { clientLogin } from "@/api";
-import { useRouter } from "next/navigation";
+import { clientCreateAccount } from "@/api";
+import { Account } from "@/types";
+import { accountStore } from "@/store/account";
 
 export const CreateAccountForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [values, setValues] = useState({ email: "", password: "" });
-  const router = useRouter();
+  const [values, setValues] = useState({ balance: 0, currency: "GBP" });
+  const { addAccount } = accountStore();
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
-    const { ok } = await clientLogin<null>(values);
+    const res = await clientCreateAccount<Account>(values);
 
-    if (ok) router.push("/app");
-    else setIsLoading(false);
+    if (res.ok) addAccount(res.data);
+    setIsLoading(false);
   };
 
   return (
     <Flex justify="center" p={20}>
-      <form>
+      <form onSubmit={onSubmit}>
         <Stack p={10}>
-          <TextInput
-            label="Email"
-            placeholder="test@email.com"
-            value={values["email"]}
-            onChange={(v) => setValues({ ...values, email: v })}
+          <Select
+            label="Currency"
+            placeholder="Pick a value"
+            value={values["currency"]}
+            onChange={(v) => setValues({ ...values, currency: v })}
+            data={["USD", "GBP", "MXN"]}
           />
-
-          <PasswordInput
-            label="Password"
-            value={values["password"]}
-            onChange={(v) => setValues({ ...values, password: v })}
+          <NumberInput
+            label="Balance"
+            value={values["balance"]}
+            min={0}
+            onChange={(v) => setValues({ ...values, balance: v })}
           />
-
           <Button
             type="submit"
-            bg="#04d180"
+            bg="#003a40"
             loading={isLoading}
             disabled={isLoading}
           >
-            Login
+            Create Account
           </Button>
         </Stack>
       </form>
