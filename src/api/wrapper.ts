@@ -4,9 +4,11 @@ const apiUrl = String(process.env.NEXT_PUBLIC_API_URL);
 type CallAPIWrapperParams = {
   path: string;
   method: "GET" | "POST" | "PUT" | "DELETE";
-  body?: {
-    [key: string]: any;
-  };
+  body?:
+    | {
+        [key: string]: any;
+      }
+    | FormData;
 };
 
 type RightResponse<T> = {
@@ -26,21 +28,25 @@ export const clientWrapper = async <T>({
   method,
   body,
 }: CallAPIWrapperParams): Promise<APIResponse<T>> => {
+  const isFormData = body instanceof FormData;
+
   try {
     const res = await fetch(apiUrl + path, {
       method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      ...(!isFormData && {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }),
       credentials: "include",
-      body: body && JSON.stringify(body),
+      body: isFormData ? body : JSON.stringify(body),
     }).then((res) => res.json());
 
     if (!res.ok) {
       notifications.show({
         color: "red",
-        title: "Error login",
+        title: "Error",
         message: res.message,
       });
       return res as BadResponse;

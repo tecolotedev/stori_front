@@ -4,6 +4,7 @@ import { Account } from "@/types";
 import { Stack, Paper, Title } from "@mantine/core";
 import { accountStore } from "@/store/account";
 import { AccountCard } from "@/components/molecules";
+import Link from "next/link";
 
 type Props = {
   accounts: Account[];
@@ -23,7 +24,11 @@ export const ListAccounts = (props: Props) => {
       </Title>
       <Stack>
         {accounts.map((account) => {
-          return <AccountCard account={account} key={account.ID} />;
+          return (
+            <Link key={account.ID} href={`/app/${account.ID}`}>
+              <AccountCard account={account} />
+            </Link>
+          );
         })}
       </Stack>
     </Paper>

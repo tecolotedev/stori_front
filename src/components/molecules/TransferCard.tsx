@@ -1,11 +1,11 @@
 import { Card as CardMantine, Grid, GridCol, Text, Stack } from "@mantine/core";
-import { Account } from "@/types";
+import { Transfer } from "@/types";
 
 type Props = {
-  account: Account;
+  transfer: Transfer;
 };
-export const AccountCard = ({ account }: Props) => {
-  const { Balance, CreatedAt, Currency } = account;
+export const TransferCard = ({ transfer }: Props) => {
+  const { Amount, CreatedAt, Reason } = transfer;
   const date = new Date(CreatedAt);
   const datetime = date.toLocaleDateString() + " " + date.toLocaleTimeString();
   return (
@@ -14,17 +14,17 @@ export const AccountCard = ({ account }: Props) => {
         <GridCol span={12}>
           <Stack gap="xs">
             <Text fw={700} size="lg">
-              Balance
+              Amount
             </Text>
-            <Text>{Balance.toFixed(2)}</Text>
+            <Text>{Amount}</Text>
           </Stack>
         </GridCol>
         <GridCol span={6}>
           <Stack gap="xs">
             <Text fw={700} size="lg">
-              Currency
+              Reason
             </Text>
-            <Text>{Currency}</Text>
+            <Text>{Reason}</Text>
           </Stack>
         </GridCol>
         <GridCol span={6}>

@@ -1,5 +1,5 @@
 import { serverListAccounts } from "@/api";
-import { Paper, SimpleGrid, Stack, Title } from "@mantine/core";
+import { Paper, SimpleGrid, Title } from "@mantine/core";
 import { Account } from "@/types";
 import { CreateAccountForm } from "@/components/forms";
 import { redirect } from "next/navigation";

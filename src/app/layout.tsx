@@ -19,7 +19,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body style={{ overflow: "hidden", background: "#003a40" }}>
+      <body style={{ background: "#003a40" }}>
         <MantineProvider>
           <Notifications position="top-right" />
           {children}
