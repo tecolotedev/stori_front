@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Flex, Stack, Text } from "@mantine/core";
+import { useCookies } from "next-client-cookies";
 import { TextInput, PasswordInput } from "../atoms";
 import { useState } from "react";
 import { clientLogin } from "@/api";
@@ -8,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export const LoginForm = () => {
+  const cookies = useCookies();
   const [isLoading, setIsLoading] = useState(false);
   const [values, setValues] = useState({ email: "", password: "" });
   const router = useRouter();
@@ -15,9 +17,11 @@ export const LoginForm = () => {
   const onSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
-    const res = await clientLogin<null>(values);
-    if (res.ok) router.push("/app");
-    else setIsLoading(false);
+    const res = await clientLogin<string>(values);
+    if (res.ok) {
+      router.push("/app");
+      cookies.set("access_token", res.data);
+    } else setIsLoading(false);
   };
   return (
     <Flex justify="center" p={20}>

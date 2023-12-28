@@ -1,9 +1,12 @@
 import { LoginForm } from "@/components/forms";
+import { CookiesProvider } from "next-client-cookies/server";
 
 const LoginPage = () => {
   return (
     <div>
-      <LoginForm />
+      <CookiesProvider>
+        <LoginForm />
+      </CookiesProvider>
     </div>
   );
 };
