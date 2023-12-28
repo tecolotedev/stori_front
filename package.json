@@ -13,7 +13,6 @@
     "@mantine/hooks": "^7.3.2",
     "@mantine/notifications": "^7.3.2",
     "next": "14.0.4",
-    "next-client-cookies": "^1.1.0",
     "postcss": "^8.4.32",
     "postcss-preset-mantine": "^1.12.1",
     "postcss-simple-vars": "^7.0.1",
