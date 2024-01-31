@@ -16,8 +16,10 @@ export const LoginForm = () => {
     e.preventDefault();
     setIsLoading(true);
     const res = await clientLogin<string>(values);
-    if (res.ok) router.push("/app");
-    else setIsLoading(false);
+    console.log("res: ", res);
+    // if (res.ok) router.push("/app");
+    // else
+    setIsLoading(false);
   };
   return (
     <Flex justify="center" p={20}>

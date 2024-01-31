@@ -1,33 +1,18 @@
-import Image from "next/image";
+"use client";
 
 import { Box, Button, Flex } from "@mantine/core";
-import Link from "next/link";
 
 export default function Home() {
+  const onClick = async () => {
+    const res = await fetch("https://stori-back.tecolotedev.com/token", {
+      method: "GET",
+      credentials: "include",
+    }).then((res) => res.json());
+    console.log(res);
+  };
   return (
     <Box component="main">
-      <Flex justify="flex-end">
-        <Box p={10}>
-          <Button component={Link} href="/login" bg="#04d180">
-            Login
-          </Button>
-        </Box>
-      </Flex>
-      <Flex
-        justify="center"
-        align="center"
-        direction="column"
-        w="100%"
-        h="500px"
-      >
-        <Image
-          src="/img/logo.png"
-          width={300}
-          height={120}
-          alt="logo stori"
-          priority
-        />
-      </Flex>
+      <Button onClick={onClick}>Fetch</Button>
     </Box>
   );
 }

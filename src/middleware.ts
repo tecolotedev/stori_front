@@ -12,10 +12,12 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname.startsWith("/app")) {
-    if (!token) return NextResponse.redirect(new URL("/login", request.url));
+    console.log("mid token: ", token);
 
+    if (!token) return NextResponse.redirect(new URL("/login", request.url));
     const { ok } = await verifyToken();
     const response = NextResponse.redirect(new URL("/login", request.url));
+    console.log("mid ok: ", ok);
 
     if (!ok) {
       response.headers.set("Set-Cookie", "access_token=");
